@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { requireAdminSession } from '@/lib/adminAuthCheck';
-import { ReservationStatusUpdateSchema } from '@/lib/validations';
+import { ReservationStatusUpdateSchema, isValidReservationTransition } from '@/lib/validations';
 import { logAuditEvent } from '@/lib/audit';
+import { sendNotification } from '@/lib/notifications';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const auth = await requireAdminSession();
@@ -44,9 +47,10 @@ export async function GET(req: NextRequest) {
     ]);
 
     // Counts by status for dashboard tabs
-    const [pendingCount, confirmedCount, rejectedCount, cancelledCount] = await Promise.all([
+    const [pendingCount, confirmedCount, completedCount, rejectedCount, cancelledCount] = await Promise.all([
       prisma.reservation.count({ where: { status: 'PENDING' } }),
       prisma.reservation.count({ where: { status: 'CONFIRMED' } }),
+      prisma.reservation.count({ where: { status: 'COMPLETED' } }),
       prisma.reservation.count({ where: { status: 'REJECTED' } }),
       prisma.reservation.count({ where: { status: 'CANCELLED' } }),
     ]);
@@ -64,6 +68,7 @@ export async function GET(req: NextRequest) {
         all: total,
         pending: pendingCount,
         confirmed: confirmedCount,
+        completed: completedCount,
         rejected: rejectedCount,
         cancelled: cancelledCount,
       },
@@ -96,6 +101,12 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: 'Reservation not found' }, { status: 404 });
     }
 
+    // State machine check
+    const transition = isValidReservationTransition(existing.status, parsed.data.status);
+    if (!transition.valid) {
+      return NextResponse.json({ error: transition.reason }, { status: 400 });
+    }
+
     const updated = await prisma.reservation.update({
       where: { id },
       data: {
@@ -116,6 +127,22 @@ export async function PATCH(req: NextRequest) {
         reference: updated.reference,
       },
     });
+
+    // Notify guest on confirmation
+    if (updated.status === 'CONFIRMED' && existing.status !== 'CONFIRMED') {
+      await sendNotification({
+        recipient: updated.phone,
+        channel: 'WHATSAPP',
+        template: 'RESERVATION_STATUS_UPDATE',
+        data: {
+          reference: updated.reference,
+          customerName: updated.customerName,
+          status: 'CONFIRMED',
+          date: updated.reservationDate,
+          time: updated.reservationTime,
+        },
+      });
+    }
 
     return NextResponse.json({
       success: true,

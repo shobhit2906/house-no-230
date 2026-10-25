@@ -51,24 +51,126 @@ model MenuItem {
 }
 
 model Reservation {
-  id              String   @id @default(cuid())
-  reference       String   @unique
-  customerName    String
-  phone           String
-  email           String?
-  reservationDate String   // ISO date string: YYYY-MM-DD
-  reservationTime String   // HH:mm format
-  guestCount      Int
-  specialRequest  String?
-  status          String   @default("PENDING") // PENDING, CONFIRMED, REJECTED, CANCELLED
-  internalNotes   String?  // Protected from public access
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  id                String   @id @default(cuid())
+  reference         String   @unique
+  customerName      String
+  phone             String
+  email             String?
+  reservationDate   String   // ISO date string: YYYY-MM-DD
+  reservationTime   String   // HH:mm format
+  guestCount        Int
+  seatingPreference String?  // INDOOR, GARDEN_AL_FRESCO, BAR_LOUNGE, ANY
+  occasion          String?  // BIRTHDAY, ANNIVERSARY, BUSINESS, DATE_NIGHT, FAMILY_GATHERING, CASUAL
+  specialRequest    String?
+  status            String   @default("PENDING") // PENDING, CONFIRMED, COMPLETED, REJECTED, CANCELLED
+  internalNotes     String?  // Protected from public access
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 
   @@index([reference])
   @@index([phone])
   @@index([reservationDate])
   @@index([status])
+}
+
+model EventLead {
+  id                     String   @id @default(cuid())
+  reference              String   @unique
+  customerName           String
+  phone                  String
+  email                  String?
+  eventType              String   // BIRTHDAY, ANNIVERSARY, CORPORATE, GROUP_DINNER, PRIVATE_DINING, OTHER
+  eventDate              String   // YYYY-MM-DD
+  guestCount             Int
+  budgetRange            String?
+  decorationRequirements String?
+  notes                  String?
+  status                 String   @default("NEW") // NEW, CONTACTED, QUALIFIED, QUOTED, CONFIRMED, LOST, CLOSED
+  assignedStaff          String?
+  internalNotes          String?
+  quotedAmount           Float?   // Entered only when staff quotes
+  nextFollowUpDate       String?  // YYYY-MM-DD
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+
+  @@index([reference])
+  @@index([phone])
+  @@index([eventDate])
+  @@index([status])
+}
+
+model CustomerFeedback {
+  id             String    @id @default(cuid())
+  reference      String    @unique
+  visitReference String?
+  rating         Int       // 1 to 5
+  category       String    // FOOD, SERVICE, AMBIENCE, BOOKING, OTHER
+  comments       String
+  customerName   String?
+  customerPhone  String?
+  contactConsent Boolean   @default(false)
+  status         String    @default("NEW") // NEW, UNDER_REVIEW, RESOLVED
+  assignedStaff  String?
+  internalNotes  String?
+  resolvedAt     DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([reference])
+  @@index([rating])
+  @@index([status])
+}
+
+model LoyaltyCustomer {
+  id           String               @id @default(cuid())
+  phone        String               @unique
+  name         String
+  email        String?
+  totalPoints  Int                  @default(0)
+  totalVisits  Int                  @default(0)
+  optedInAt    DateTime             @default(now())
+  isActive     Boolean              @default(true)
+  transactions LoyaltyTransaction[]
+
+  @@index([phone])
+}
+
+model LoyaltyTransaction {
+  id            String          @id @default(cuid())
+  customerId    String
+  customer      LoyaltyCustomer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  points        Int             // Positive for credit/visit, negative for redemption
+  actionType    String          // VISIT_STAMP, REWARD_REDEMPTION, MANUAL_ADJUSTMENT
+  description   String
+  referenceCode String?
+  actorStaffId  String?
+  createdAt     DateTime        @default(now())
+
+  @@index([customerId])
+  @@index([createdAt])
+}
+
+model LoyaltyReward {
+  id             String   @id @default(cuid())
+  title          String
+  description    String?
+  pointsRequired Int
+  isActive       Boolean  @default(true)
+  createdAt      DateTime @default(now())
+}
+
+model NotificationLog {
+  id        String   @id @default(cuid())
+  recipient String
+  channel   String   // EMAIL, WHATSAPP, SMS
+  template  String   // RESERVATION_CONFIRMATION, EVENT_INQUIRY_RECEIVED, etc.
+  status    String   // SIMULATED, SENT, FAILED, PENDING_CONFIG
+  error     String?
+  payload   String?  // Safe summary
+  createdAt DateTime @default(now())
+
+  @@index([status])
+  @@index([createdAt])
 }
 
 model AdminUser {
@@ -85,29 +187,38 @@ model AdminUser {
 }
 
 model SiteSettings {
-  id                 String   @id @default("global")
-  restaurantName     String   @default("House No. 230")
-  tagline            String   @default("The Gourmet Kitchen & Bar")
-  announcementActive Boolean  @default(false)
-  announcementText   String?
-  address            String?
-  phone              String?
-  email              String?
-  whatsappNumber     String?
-  openingHours       String?
-  googleMapsUrl      String?
-  instagramUrl       String?
-  facebookUrl        String?
-  aboutStory         String?
-  updatedAt          DateTime @updatedAt
+  id                     String   @id @default("global")
+  restaurantName         String   @default("House No. 230")
+  tagline                String   @default("The Gourmet Kitchen & Bar")
+  announcementActive     Boolean  @default(false)
+  announcementText       String?
+  address                String?
+  phone                  String?  // Primary phone
+  secondaryPhone         String?  // Secondary phone
+  secondaryPhoneVerified Boolean  @default(false)
+  email                  String?
+  whatsappNumber         String?
+  openingHours           String?
+  openingHoursJson       String?  // Structured schedule by day
+  googleMapsUrl          String?
+  districtUrl            String?
+  linktreeUrl            String?
+  instagramUrl           String?
+  facebookUrl            String?
+  aboutStory             String?
+  reservationLeadHours   Int      @default(2)
+  maxPartySize           Int      @default(30)
+  reservationPolicies    String?
+  eventPolicies          String?
+  updatedAt              DateTime @updatedAt
 }
 
 model AuditLog {
   id         String   @id @default(cuid())
   actorId    String?
   actorEmail String?
-  action     String   // e.g. "RESERVATION_STATUS_UPDATE", "MENU_ITEM_CREATE", etc.
-  entityType String   // "Reservation", "MenuItem", "SiteSettings", etc.
+  action     String   // e.g. "RESERVATION_STATUS_UPDATE", "EVENT_LEAD_UPDATE", etc.
+  entityType String   // "Reservation", "EventLead", "Loyalty", etc.
   entityId   String?
   details    String?  // JSON string of safe payload details
   createdAt  DateTime @default(now())

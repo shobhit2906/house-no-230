@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { ReservationSubmissionSchema, sanitizePhoneNumber } from '@/lib/validations';
 import { checkRateLimit } from '@/lib/auth';
+import { sendNotification } from '@/lib/notifications';
+
+export const dynamic = 'force-dynamic';
 
 function generateReservationReference(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -15,7 +18,7 @@ function generateReservationReference(): string {
 export async function POST(req: NextRequest) {
   try {
     const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'local';
-    
+
     // Rate limit: 5 requests per hour per IP
     const rateCheck = checkRateLimit(`reservation:${clientIp}`, 5, 60 * 60 * 1000);
     if (!rateCheck.allowed) {
@@ -36,7 +39,7 @@ export async function POST(req: NextRequest) {
     const data = parseResult.data;
     const sanitizedPhone = sanitizePhoneNumber(data.phone);
 
-    // Prevent duplicate spam: Check if same phone requested same date & time within the past 15 minutes
+    // Prevent duplicate submissions: check if same phone requested same date & time within the past 15 minutes
     const fifteenMinutesAgo = new Date(Date.now() - 15 * 60 * 1000);
     const existingRecent = await prisma.reservation.findFirst({
       where: {
@@ -74,9 +77,24 @@ export async function POST(req: NextRequest) {
         reservationDate: data.reservationDate,
         reservationTime: data.reservationTime,
         guestCount: data.guestCount,
+        seatingPreference: data.seatingPreference,
+        occasion: data.occasion,
         specialRequest: data.specialRequest || null,
         status: 'PENDING',
         internalNotes: null,
+      },
+    });
+
+    // Dispatch modular notification
+    await sendNotification({
+      recipient: sanitizedPhone,
+      channel: 'WHATSAPP',
+      template: 'RESERVATION_REQUEST_RECEIVED',
+      data: {
+        reference: reservation.reference,
+        customerName: reservation.customerName,
+        date: reservation.reservationDate,
+        time: reservation.reservationTime,
       },
     });
 
@@ -93,6 +111,8 @@ export async function POST(req: NextRequest) {
           reservationDate: reservation.reservationDate,
           reservationTime: reservation.reservationTime,
           guestCount: reservation.guestCount,
+          seatingPreference: reservation.seatingPreference,
+          occasion: reservation.occasion,
           status: reservation.status,
         },
       },

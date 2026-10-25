@@ -1,7 +1,21 @@
 import React from 'react';
 import Link from 'next/link';
-import { MapPin, Phone, Mail, Clock, ShieldCheck, UtensilsCrossed } from 'lucide-react';
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  ShieldCheck,
+  UtensilsCrossed,
+  MessageSquare,
+  Navigation,
+  ExternalLink,
+  PartyPopper,
+  QrCode,
+  Award,
+} from 'lucide-react';
 import { SiteSettingsData } from '@/types';
+import { buildWhatsAppLink } from '@/lib/whatsapp';
 
 interface FooterProps {
   settings?: SiteSettingsData | null;
@@ -9,6 +23,24 @@ interface FooterProps {
 
 export default function Footer({ settings }: FooterProps) {
   const currentYear = new Date().getFullYear();
+
+  const primaryPhone = settings?.phone || '+91 89898 88988';
+  const address =
+    settings?.address ||
+    '230, Kerwa Dam Road, opposite Bull Mother Farm, near N.L.I.U., National Law Institute University, Bhopal, Madhya Pradesh 462044, India.';
+  const mapsUrl =
+    settings?.googleMapsUrl ||
+    'https://www.google.com/maps/search/?api=1&query=House+No+230+The+Gourmet+Kitchen+Bar+Bhopal';
+  const email = settings?.email || 'contact@houseno230.com';
+  const districtUrl =
+    settings?.districtUrl ||
+    'https://www.district.in/dining/bhopal/house-no-230-the-gourmet-kitchen-mendori';
+  const linktreeUrl = settings?.linktreeUrl || 'https://linktr.ee/Houseno230';
+
+  const whatsAppUrl = buildWhatsAppLink({
+    phone: primaryPhone,
+    type: 'general',
+  });
 
   return (
     <footer className="bg-deep-black border-t border-border-dark text-warm-ivory/80 pt-16 pb-12">
@@ -23,19 +55,38 @@ export default function Footer({ settings }: FooterProps) {
               </span>
             </div>
             <p className="text-xs uppercase tracking-[0.2em] text-gold-light">
-              The Gourmet Kitchen & Bar
+              The Gourmet Kitchen & Bar &bull; Bhopal
             </p>
-            <p className="text-sm text-secondary-gray leading-relaxed pt-2">
-              An experiential culinary haven bringing refined flavours, artisanal sips, and sophisticated hospitality to your table.
+            <p className="text-xs text-secondary-gray leading-relaxed pt-1">
+              An experiential culinary and cocktail destination along Kerwa Dam Road in Bhopal. Bringing multicuisine gourmet craft, serene ambience, and refined hospitality to your table.
             </p>
+            {/* Quick action buttons in footer */}
+            <div className="pt-2 flex flex-wrap gap-2">
+              <a
+                href={`tel:${primaryPhone.replace(/\s+/g, '')}`}
+                className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-card-dark border border-border-dark hover:border-gold text-xs font-semibold text-warm-ivory transition-colors"
+              >
+                <Phone className="w-3.5 h-3.5 text-gold" />
+                <span>Call Us</span>
+              </a>
+              <a
+                href={whatsAppUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-emerald-950/60 border border-emerald-700/60 text-emerald-300 text-xs font-semibold hover:bg-emerald-900/80 transition-colors"
+              >
+                <MessageSquare className="w-3.5 h-3.5" />
+                <span>WhatsApp</span>
+              </a>
+            </div>
           </div>
 
           {/* Navigation Links */}
           <div className="space-y-3">
             <h3 className="font-serif text-sm uppercase tracking-wider text-warm-ivory font-semibold">
-              Explore
+              Explore & Dine
             </h3>
-            <ul className="space-y-2 text-sm">
+            <ul className="space-y-2 text-xs">
               <li>
                 <Link href="/" className="hover:text-gold transition-colors">
                   Home
@@ -43,17 +94,19 @@ export default function Footer({ settings }: FooterProps) {
               </li>
               <li>
                 <Link href="/menu" className="hover:text-gold transition-colors">
-                  Our Menu
+                  Our Menu (145+ Dishes)
                 </Link>
               </li>
               <li>
-                <Link href="/story" className="hover:text-gold transition-colors">
-                  Our Story
+                <Link href="/qr-menu" className="hover:text-gold transition-colors flex items-center space-x-1">
+                  <QrCode className="w-3 h-3 text-gold" />
+                  <span>Mobile QR Code Menu</span>
                 </Link>
               </li>
               <li>
-                <Link href="/gallery" className="hover:text-gold transition-colors">
-                  Ambience & Gallery
+                <Link href="/celebrate" className="hover:text-gold transition-colors flex items-center space-x-1">
+                  <PartyPopper className="w-3 h-3 text-gold" />
+                  <span>Celebrate & Private Events</span>
                 </Link>
               </li>
               <li>
@@ -62,87 +115,133 @@ export default function Footer({ settings }: FooterProps) {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="hover:text-gold transition-colors">
-                  Location & Contact
+                <Link href="/gallery" className="hover:text-gold transition-colors">
+                  Ambience & Gallery
+                </Link>
+              </li>
+              <li>
+                <Link href="/story" className="hover:text-gold transition-colors">
+                  Our Story
+                </Link>
+              </li>
+              <li>
+                <Link href="/loyalty" className="hover:text-gold transition-colors flex items-center space-x-1">
+                  <Award className="w-3 h-3 text-gold" />
+                  <span>Gourmet Privileges</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/feedback" className="hover:text-gold transition-colors">
+                  Private Guest Feedback
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact Details (Honest: renders only what is configured) */}
+          {/* Contact Details (Verified Bhopal Details) */}
           <div className="space-y-3">
             <h3 className="font-serif text-sm uppercase tracking-wider text-warm-ivory font-semibold">
               Visit & Connect
             </h3>
-            <ul className="space-y-3 text-sm">
-              {settings?.address ? (
-                <li className="flex items-start space-x-2.5">
-                  <MapPin className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
-                  <span className="text-secondary-gray">{settings.address}</span>
-                </li>
-              ) : (
-                <li className="flex items-start space-x-2.5">
-                  <MapPin className="w-4 h-4 text-gold/60 flex-shrink-0 mt-0.5" />
-                  <span className="text-secondary-gray text-xs italic">
-                    Location address will be updated shortly upon official opening.
-                  </span>
-                </li>
-              )}
-
-              {settings?.phone && (
-                <li className="flex items-center space-x-2.5">
-                  <Phone className="w-4 h-4 text-gold flex-shrink-0" />
-                  <a href={`tel:${settings.phone}`} className="hover:text-gold transition-colors">
-                    {settings.phone}
+            <ul className="space-y-3 text-xs">
+              <li className="flex items-start space-x-2.5">
+                <MapPin className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
+                <div className="space-y-1">
+                  <span className="text-secondary-gray leading-relaxed block">{address}</span>
+                  <a
+                    href={mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center space-x-1 text-gold hover:underline font-semibold text-[11px]"
+                  >
+                    <Navigation className="w-3 h-3" />
+                    <span>Open in Google Maps</span>
                   </a>
-                </li>
-              )}
+                </div>
+              </li>
 
-              {settings?.email && (
-                <li className="flex items-center space-x-2.5">
-                  <Mail className="w-4 h-4 text-gold flex-shrink-0" />
-                  <a href={`mailto:${settings.email}`} className="hover:text-gold transition-colors">
-                    {settings.email}
+              <li className="flex items-center space-x-2.5">
+                <Phone className="w-4 h-4 text-gold flex-shrink-0" />
+                <div>
+                  <a href={`tel:${primaryPhone.replace(/\s+/g, '')}`} className="hover:text-gold font-mono font-semibold transition-colors">
+                    {primaryPhone}
                   </a>
-                </li>
-              )}
+                  {settings?.secondaryPhone && (
+                    <div className="text-[10px] text-secondary-gray">
+                      Secondary:{' '}
+                      <a href={`tel:${settings.secondaryPhone.replace(/\s+/g, '')}`} className="hover:underline font-mono">
+                        {settings.secondaryPhone}
+                      </a>{' '}
+                      {!settings.secondaryPhoneVerified && (
+                        <span className="text-gold/70 italic">(Verification pending)</span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </li>
 
-              {settings?.openingHours ? (
-                <li className="flex items-start space-x-2.5 pt-1">
-                  <Clock className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
-                  <span className="text-secondary-gray text-xs leading-normal">
-                    {settings.openingHours}
-                  </span>
-                </li>
-              ) : (
-                <li className="flex items-start space-x-2.5 pt-1">
-                  <Clock className="w-4 h-4 text-gold/60 flex-shrink-0 mt-0.5" />
-                  <span className="text-secondary-gray text-xs italic">
-                    Opening hours: Confirmed on booking request confirmation.
-                  </span>
-                </li>
-              )}
+              <li className="flex items-center space-x-2.5">
+                <Mail className="w-4 h-4 text-gold flex-shrink-0" />
+                <a href={`mailto:${email}`} className="hover:text-gold transition-colors">
+                  {email}
+                </a>
+              </li>
+
+              <li className="flex items-start space-x-2.5 pt-1">
+                <Clock className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
+                <span className="text-secondary-gray leading-normal">
+                  {settings?.openingHours || 'Daily: 12:30 PM – 11:30 PM (Lunch & Dinner)'}
+                </span>
+              </li>
             </ul>
+
+            {/* Third-party listing links */}
+            <div className="pt-2 border-t border-border-dark/60 space-y-1.5">
+              <span className="text-[10px] uppercase tracking-wider text-secondary-gray block font-semibold">
+                Online Listings:
+              </span>
+              <div className="flex flex-wrap gap-2 text-[11px]">
+                <a
+                  href={districtUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gold/80 hover:text-gold flex items-center space-x-1 underline"
+                >
+                  <span>District.in Dining Profile</span>
+                  <ExternalLink className="w-2.5 h-2.5" />
+                </a>
+                <span className="text-secondary-gray">&bull;</span>
+                <a
+                  href={linktreeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gold/80 hover:text-gold flex items-center space-x-1 underline"
+                >
+                  <span>Linktree</span>
+                  <ExternalLink className="w-2.5 h-2.5" />
+                </a>
+              </div>
+            </div>
           </div>
 
           {/* Legal and Regulatory Notice */}
           <div className="space-y-3">
             <h3 className="font-serif text-sm uppercase tracking-wider text-warm-ivory font-semibold flex items-center space-x-1.5">
               <ShieldCheck className="w-4 h-4 text-gold" />
-              <span>Dining Policies</span>
+              <span>Policies & Operations</span>
             </h3>
             <p className="text-xs text-secondary-gray leading-relaxed">
-              Bar offerings and Hookah service strictly adhere to local statutory licensing, municipal guidelines, and legal drinking age restrictions.
+              Bar offerings and Hookah service strictly adhere to Madhya Pradesh excise licensing, municipal guidelines, and legal drinking age restrictions.
             </p>
             <p className="text-xs text-secondary-gray leading-relaxed">
               Valid government-issued photo ID is required for alcoholic beverage service. Management reserves the right of admission.
             </p>
-            <div className="pt-2">
+            <div className="pt-2 flex items-center justify-between">
               <Link
                 href="/admin/login"
-                className="text-xs text-gold/70 hover:text-gold underline underline-offset-4"
+                className="text-xs text-gold hover:underline font-semibold"
               >
-                Staff Administration
+                Staff Portal Sign In &rarr;
               </Link>
             </div>
           </div>
@@ -153,12 +252,15 @@ export default function Footer({ settings }: FooterProps) {
           <p>
             &copy; {currentYear} House No. 230 — The Gourmet Kitchen & Bar. All rights reserved.
           </p>
-          <div className="flex items-center space-x-6">
+          <div className="flex flex-wrap items-center space-x-6">
             <Link href="/privacy" className="hover:text-warm-ivory transition-colors">
               Privacy Policy
             </Link>
             <Link href="/terms" className="hover:text-warm-ivory transition-colors">
               Terms & Conditions
+            </Link>
+            <Link href="/feedback" className="hover:text-warm-ivory transition-colors">
+              Guest Feedback
             </Link>
           </div>
         </div>

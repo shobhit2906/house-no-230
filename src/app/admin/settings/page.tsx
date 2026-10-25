@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Settings, Save, Sparkles, MapPin, Phone, Mail, Clock, MessageSquare, Info } from 'lucide-react';
-import { SiteSettingsData } from '@/types';
+import { Settings, Save, Sparkles, MapPin, Phone, Mail, Clock, MessageSquare, Info, ShieldCheck, Calendar, Users, ExternalLink } from 'lucide-react';
 
 export default function AdminSettingsPage() {
   const [loading, setLoading] = useState(true);
@@ -16,13 +15,21 @@ export default function AdminSettingsPage() {
     announcementText: '',
     address: '',
     phone: '',
+    secondaryPhone: '',
+    secondaryPhoneVerified: false,
     email: '',
     whatsappNumber: '',
     openingHours: '',
     googleMapsUrl: '',
+    districtUrl: '',
+    linktreeUrl: '',
     instagramUrl: '',
     facebookUrl: '',
     aboutStory: '',
+    reservationLeadHours: 2,
+    maxPartySize: 20,
+    reservationPolicies: '',
+    eventPolicies: '',
   });
 
   useEffect(() => {
@@ -38,13 +45,21 @@ export default function AdminSettingsPage() {
             announcementText: data.settings.announcementText || '',
             address: data.settings.address || '',
             phone: data.settings.phone || '',
+            secondaryPhone: data.settings.secondaryPhone || '',
+            secondaryPhoneVerified: data.settings.secondaryPhoneVerified || false,
             email: data.settings.email || '',
             whatsappNumber: data.settings.whatsappNumber || '',
             openingHours: data.settings.openingHours || '',
             googleMapsUrl: data.settings.googleMapsUrl || '',
+            districtUrl: data.settings.districtUrl || '',
+            linktreeUrl: data.settings.linktreeUrl || '',
             instagramUrl: data.settings.instagramUrl || '',
             facebookUrl: data.settings.facebookUrl || '',
             aboutStory: data.settings.aboutStory || '',
+            reservationLeadHours: data.settings.reservationLeadHours ?? 2,
+            maxPartySize: data.settings.maxPartySize ?? 20,
+            reservationPolicies: data.settings.reservationPolicies || '',
+            eventPolicies: data.settings.eventPolicies || '',
           });
         }
       } catch (err) {
@@ -71,7 +86,7 @@ export default function AdminSettingsPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to update settings');
 
-      setFeedback({ type: 'success', message: 'Restaurant settings updated successfully.' });
+      setFeedback({ type: 'success', message: 'Restaurant settings updated and audited successfully.' });
     } catch (err: unknown) {
       setFeedback({
         type: 'error',
@@ -99,7 +114,7 @@ export default function AdminSettingsPage() {
             <span>Restaurant Configuration</span>
           </h1>
           <p className="text-xs text-secondary-gray mt-1">
-            Update verified address, contact numbers, announcement banner, and dining hours.
+            Update verified Bhopal venue details, reservation lead rules, online directories, and brand policies.
           </p>
         </div>
       </div>
@@ -160,27 +175,27 @@ export default function AdminSettingsPage() {
           <div className="flex items-center space-x-2 border-b border-border-dark pb-3">
             <MapPin className="w-5 h-5 text-gold" />
             <h2 className="font-serif text-base font-bold text-warm-ivory">
-              Verified Business Details
+              Verified Business Details (Bhopal Venue)
             </h2>
           </div>
 
           <div className="p-3 bg-deep-black/60 border border-border-dark flex items-start space-x-2.5 text-xs text-secondary-gray">
             <Info className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
             <span>
-              Per brand guidelines: If a phone or address is not yet active, leave it blank. The website will cleanly hide unconfigured fields rather than showing fictional information.
+              Per brand guidelines: Secondary phone numbers remain flagged as unverified until confirmed by the owner. Public visitors only see verified numbers.
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
               <label className="block text-xs uppercase tracking-wider text-secondary-gray">
-                Official Phone Number
+                Primary Phone Number (Click-to-call)
               </label>
               <input
                 type="text"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                placeholder="e.g. +91 98765 43210"
+                placeholder="+91 89898 88988"
                 className="w-full bg-deep-black border border-border-dark p-2.5 text-xs text-warm-ivory focus:border-gold focus:outline-none"
               />
             </div>
@@ -193,9 +208,39 @@ export default function AdminSettingsPage() {
                 type="text"
                 value={formData.whatsappNumber}
                 onChange={(e) => setFormData({ ...formData, whatsappNumber: e.target.value })}
-                placeholder="e.g. +91 98765 43210"
+                placeholder="+91 89898 88988"
                 className="w-full bg-deep-black border border-border-dark p-2.5 text-xs text-warm-ivory focus:border-gold focus:outline-none"
               />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="block text-xs uppercase tracking-wider text-secondary-gray">
+                Secondary Phone Number (Optional)
+              </label>
+              <input
+                type="text"
+                value={formData.secondaryPhone}
+                onChange={(e) => setFormData({ ...formData, secondaryPhone: e.target.value })}
+                placeholder="+91 91312 45032"
+                className="w-full bg-deep-black border border-border-dark p-2.5 text-xs text-warm-ivory focus:border-gold focus:outline-none"
+              />
+            </div>
+
+            <div className="flex items-center space-x-3 pt-6">
+              <label className="flex items-center space-x-2.5 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.secondaryPhoneVerified}
+                  onChange={(e) => setFormData({ ...formData, secondaryPhoneVerified: e.target.checked })}
+                  className="rounded border-border-dark bg-deep-black text-gold focus:ring-gold"
+                />
+                <span className="text-xs font-semibold text-warm-ivory flex items-center space-x-1.5">
+                  <ShieldCheck className="w-4 h-4 text-gold" />
+                  <span>Mark Secondary Phone as Verified</span>
+                </span>
+              </label>
             </div>
           </div>
 
@@ -207,7 +252,7 @@ export default function AdminSettingsPage() {
               rows={2}
               value={formData.address}
               onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-              placeholder="e.g. Plot No. 230, Gourmet Boulevard, City, State, PIN"
+              placeholder="230, Kerwa Dam Road, opposite Bull Mother Farm, near N.L.I.U., Bhopal, MP 462044"
               className="w-full bg-deep-black border border-border-dark p-2.5 text-xs text-warm-ivory focus:border-gold focus:outline-none"
             />
           </div>
@@ -215,13 +260,13 @@ export default function AdminSettingsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
               <label className="block text-xs uppercase tracking-wider text-secondary-gray">
-                Google Maps Direct Navigation URL
+                Google Maps Directions URL
               </label>
               <input
                 type="url"
                 value={formData.googleMapsUrl}
                 onChange={(e) => setFormData({ ...formData, googleMapsUrl: e.target.value })}
-                placeholder="https://maps.google.com/?q=..."
+                placeholder="https://www.google.com/maps/search/?api=1&query=..."
                 className="w-full bg-deep-black border border-border-dark p-2.5 text-xs text-warm-ivory focus:border-gold focus:outline-none"
               />
             </div>
@@ -234,7 +279,35 @@ export default function AdminSettingsPage() {
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                placeholder="reservations@houseno230.com"
+                placeholder="contact@houseno230.com"
+                className="w-full bg-deep-black border border-border-dark p-2.5 text-xs text-warm-ivory focus:border-gold focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="block text-xs uppercase tracking-wider text-secondary-gray">
+                District.in Listing URL
+              </label>
+              <input
+                type="url"
+                value={formData.districtUrl}
+                onChange={(e) => setFormData({ ...formData, districtUrl: e.target.value })}
+                placeholder="https://www.district.in/dining/bhopal/house-no-230-the-gourmet-kitchen-mendori"
+                className="w-full bg-deep-black border border-border-dark p-2.5 text-xs text-warm-ivory focus:border-gold focus:outline-none"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-xs uppercase tracking-wider text-secondary-gray">
+                Linktree Official Profile
+              </label>
+              <input
+                type="url"
+                value={formData.linktreeUrl}
+                onChange={(e) => setFormData({ ...formData, linktreeUrl: e.target.value })}
+                placeholder="https://linktr.ee/Houseno230"
                 className="w-full bg-deep-black border border-border-dark p-2.5 text-xs text-warm-ivory focus:border-gold focus:outline-none"
               />
             </div>
@@ -251,6 +324,76 @@ export default function AdminSettingsPage() {
               placeholder="e.g. Lunch: 12:30 PM – 3:30 PM | Dinner: 7:00 PM – 11:30 PM (Daily)"
               className="w-full bg-deep-black border border-border-dark p-2.5 text-xs text-warm-ivory focus:border-gold focus:outline-none"
             />
+          </div>
+        </div>
+
+        {/* Reservation & Lead Policies */}
+        <div className="bg-card-dark border border-border-dark p-6 space-y-4">
+          <div className="flex items-center space-x-2 border-b border-border-dark pb-3">
+            <Calendar className="w-5 h-5 text-gold" />
+            <h2 className="font-serif text-base font-bold text-warm-ivory">
+              Booking Lead Times & Capacity Limits
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="block text-xs uppercase tracking-wider text-secondary-gray">
+                Minimum Advance Notice (Hours)
+              </label>
+              <input
+                type="number"
+                min={0}
+                max={48}
+                value={formData.reservationLeadHours}
+                onChange={(e) => setFormData({ ...formData, reservationLeadHours: parseInt(e.target.value, 10) || 0 })}
+                className="w-full bg-deep-black border border-border-dark p-2.5 text-xs text-warm-ivory focus:border-gold focus:outline-none"
+              />
+              <p className="text-[10px] text-secondary-gray">Guests cannot book same-day slots within this buffer window.</p>
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-xs uppercase tracking-wider text-secondary-gray">
+                Maximum Party Size (Online Booking)
+              </label>
+              <input
+                type="number"
+                min={1}
+                max={100}
+                value={formData.maxPartySize}
+                onChange={(e) => setFormData({ ...formData, maxPartySize: parseInt(e.target.value, 10) || 1 })}
+                className="w-full bg-deep-black border border-border-dark p-2.5 text-xs text-warm-ivory focus:border-gold focus:outline-none"
+              />
+              <p className="text-[10px] text-secondary-gray">Larger groups will be prompted to contact our events desk.</p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+            <div className="space-y-1">
+              <label className="block text-xs uppercase tracking-wider text-secondary-gray">
+                Dining Reservation Policies
+              </label>
+              <textarea
+                rows={3}
+                value={formData.reservationPolicies}
+                onChange={(e) => setFormData({ ...formData, reservationPolicies: e.target.value })}
+                placeholder="Tables are held for 15 minutes past scheduled time..."
+                className="w-full bg-deep-black border border-border-dark p-2.5 text-xs text-warm-ivory focus:border-gold focus:outline-none"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-xs uppercase tracking-wider text-secondary-gray">
+                Private Celebration & Event Policies
+              </label>
+              <textarea
+                rows={3}
+                value={formData.eventPolicies}
+                onChange={(e) => setFormData({ ...formData, eventPolicies: e.target.value })}
+                placeholder="Outside decor subject to manager review. Advance token required for private zones..."
+                className="w-full bg-deep-black border border-border-dark p-2.5 text-xs text-warm-ivory focus:border-gold focus:outline-none"
+              />
+            </div>
           </div>
         </div>
 

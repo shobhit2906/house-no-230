@@ -6,13 +6,19 @@ import { usePathname, useRouter } from 'next/navigation';
 import {
   LayoutDashboard,
   CalendarCheck,
+  PartyPopper,
+  BarChart3,
   UtensilsCrossed,
   FolderTree,
+  MessageSquareText,
+  Award,
   Settings,
   History,
   FileDown,
   LogOut,
   ExternalLink,
+  PlayCircle,
+  HelpCircle,
 } from 'lucide-react';
 import { SessionPayload } from '@/types';
 
@@ -37,21 +43,27 @@ export default function AdminNav({ user }: AdminNavProps) {
   const navItems = [
     { label: 'Overview', href: '/admin', icon: LayoutDashboard },
     { label: 'Reservations', href: '/admin/reservations', icon: CalendarCheck },
+    { label: 'Event Leads', href: '/admin/events', icon: PartyPopper },
+    { label: 'Analytics', href: '/admin/analytics', icon: BarChart3 },
     { label: 'Menu Dishes', href: '/admin/menu', icon: UtensilsCrossed },
     { label: 'Categories', href: '/admin/categories', icon: FolderTree },
-    { label: 'Restaurant Settings', href: '/admin/settings', icon: Settings },
-    { label: 'Audit History', href: '/admin/audit', icon: History },
-    { label: 'Export / Import', href: '/admin/export-import', icon: FileDown },
+    { label: 'Feedback', href: '/admin/feedback', icon: MessageSquareText },
+    { label: 'Loyalty Ledger', href: '/admin/loyalty', icon: Award },
+    { label: 'Settings & Hours', href: '/admin/settings', icon: Settings },
+    { label: 'Live Demo', href: '/admin/demo', icon: PlayCircle },
+    { label: 'Audit Log', href: '/admin/audit', icon: History },
+    { label: 'Export/Import', href: '/admin/export-import', icon: FileDown },
+    { label: 'Owner Guide', href: '/admin/guide', icon: HelpCircle },
   ];
 
   return (
-    <header className="bg-card-dark border-b border-border-dark sticky top-0 z-30">
+    <header className="bg-card-dark border-b border-border-dark sticky top-0 z-30 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Staff Identity Strip */}
-        <div className="py-3 border-b border-border-dark flex items-center justify-between text-xs">
+        <div className="py-2.5 border-b border-border-dark flex items-center justify-between text-xs">
           <div className="flex items-center space-x-3">
             <span className="font-serif text-sm font-bold text-gold tracking-wider">
-              HOUSE NO. 230 &bull; STAFF MANAGEMENT
+              HOUSE NO. 230 &bull; OWNER & STAFF PLATFORM
             </span>
             <span className="hidden sm:inline-block px-2 py-0.5 bg-gold/15 text-gold text-[10px] uppercase font-mono">
               {user.role}
@@ -59,7 +71,7 @@ export default function AdminNav({ user }: AdminNavProps) {
           </div>
 
           <div className="flex items-center space-x-4">
-            <span className="text-secondary-gray hidden md:inline">
+            <span className="text-secondary-gray hidden lg:inline">
               Signed in as <strong className="text-warm-ivory">{user.email}</strong>
             </span>
             <Link
@@ -81,7 +93,7 @@ export default function AdminNav({ user }: AdminNavProps) {
         </div>
 
         {/* Navigation Tabs */}
-        <nav className="flex space-x-1 sm:space-x-2 overflow-x-auto py-2.5 scrollbar-thin">
+        <nav className="flex space-x-1 overflow-x-auto py-2 scrollbar-thin">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -89,9 +101,9 @@ export default function AdminNav({ user }: AdminNavProps) {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center space-x-2 px-3.5 py-2 text-xs uppercase tracking-wider font-semibold whitespace-nowrap transition-colors ${
+                className={`flex items-center space-x-1.5 px-3 py-1.5 text-[11px] uppercase tracking-wider font-semibold whitespace-nowrap transition-colors ${
                   isActive
-                    ? 'bg-gold text-deep-black'
+                    ? 'bg-gold text-deep-black font-bold'
                     : 'text-warm-ivory/80 hover:text-warm-ivory hover:bg-deep-black/60'
                 }`}
               >
