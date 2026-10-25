@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-charcoal: #171715;
+    --bg-deep-black: #10100F;
+    --bg-warm-ivory: #F6F1E8;
+    --accent-gold: #B99A61;
+    --accent-gold-light: #D8BF89;
+    --text-primary: #F6F1E8;
+    --text-muted: #77746E;
+    --border-subtle: #2A2925;
+  }
+
+  body {
+    background-color: #10100F;
+    color: #F6F1E8;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, .font-serif {
+    font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
+    letter-spacing: 0.03em;
+  }
+}
+
+/* Luxury accent utility classes */
+.gold-gradient-text {
+  background: linear-gradient(135deg, #F6F1E8 0%, #D8BF89 50%, #B99A61 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-border-glow {
+  border: 1px solid rgba(185, 154, 97, 0.3);
+  transition: all 0.3s ease;
+}
+
+.gold-border-glow:hover {
+  border-color: rgba(185, 154, 97, 0.7);
+  box-shadow: 0 0 15px rgba(185, 154, 97, 0.15);
+}
+
+/* Custom focus indicator */
+*:focus-visible {
+  outline: 2px solid #B99A61;
+  outline-offset: 2px;
+}
+
+/* Printable menu styling */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  header, footer, nav, .no-print, button {
+    display: none !important;
+  }
+  .print-page {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .menu-print-item {
+    page-break-inside: avoid;
+    border-bottom: 1px solid #ddd !important;
+    color: #000 !important;
+  }
+}

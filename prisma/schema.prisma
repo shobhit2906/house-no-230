@@ -1,0 +1,118 @@
+// Prisma Schema for House No. 230
+// Default provider is sqlite for zero-friction local persistence and test isolation.
+// For PostgreSQL production deployment, switch provider to "postgresql" and use DATABASE_URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model MenuCategory {
+  id           String     @id @default(cuid())
+  name         String
+  slug         String     @unique
+  description  String?
+  displayOrder Int        @default(0)
+  isPublished  Boolean    @default(true)
+  items        MenuItem[]
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  @@index([displayOrder])
+  @@index([slug])
+}
+
+model MenuItem {
+  id           String       @id @default(cuid())
+  categoryId   String
+  category     MenuCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  name         String
+  slug         String       @unique
+  description  String?
+  price        Float?       // Optional until verified by restaurant
+  currency     String       @default("INR")
+  imageUrl     String?
+  isAvailable  Boolean      @default(true)
+  isFeatured   Boolean      @default(false)
+  dietaryType  String       @default("UNSPECIFIED") // VEGETARIAN, NON_VEGETARIAN, VEGAN, UNSPECIFIED
+  displayOrder Int          @default(0)
+  notes        String?      // Original dish notes or pending verification flags
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@index([categoryId])
+  @@index([isFeatured])
+  @@index([isAvailable])
+  @@index([slug])
+}
+
+model Reservation {
+  id              String   @id @default(cuid())
+  reference       String   @unique
+  customerName    String
+  phone           String
+  email           String?
+  reservationDate String   // ISO date string: YYYY-MM-DD
+  reservationTime String   // HH:mm format
+  guestCount      Int
+  specialRequest  String?
+  status          String   @default("PENDING") // PENDING, CONFIRMED, REJECTED, CANCELLED
+  internalNotes   String?  // Protected from public access
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([reference])
+  @@index([phone])
+  @@index([reservationDate])
+  @@index([status])
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  name         String
+  passwordHash String
+  role         String   @default("ADMIN") // ADMIN, STAFF
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([email])
+}
+
+model SiteSettings {
+  id                 String   @id @default("global")
+  restaurantName     String   @default("House No. 230")
+  tagline            String   @default("The Gourmet Kitchen & Bar")
+  announcementActive Boolean  @default(false)
+  announcementText   String?
+  address            String?
+  phone              String?
+  email              String?
+  whatsappNumber     String?
+  openingHours       String?
+  googleMapsUrl      String?
+  instagramUrl       String?
+  facebookUrl        String?
+  aboutStory         String?
+  updatedAt          DateTime @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  actorId    String?
+  actorEmail String?
+  action     String   // e.g. "RESERVATION_STATUS_UPDATE", "MENU_ITEM_CREATE", etc.
+  entityType String   // "Reservation", "MenuItem", "SiteSettings", etc.
+  entityId   String?
+  details    String?  // JSON string of safe payload details
+  createdAt  DateTime @default(now())
+
+  @@index([action])
+  @@index([entityType])
+  @@index([createdAt])
+}

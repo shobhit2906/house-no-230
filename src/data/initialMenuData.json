@@ -1,0 +1,285 @@
+{
+  "categories": [
+    {
+      "slug": "salads",
+      "name": "Salads",
+      "description": "Fresh, crisp and wholesome garden salads and gourmet preparations.",
+      "displayOrder": 1,
+      "items": [
+        { "name": "Green Salad", "notes": "Fresh garden salad" },
+        { "name": "Kachumber Salad", "notes": "Traditional spiced diced vegetable salad" },
+        { "name": "Pasta Salad", "notes": "Cold pasta salad with garden vegetables" },
+        { "name": "Grilled Vegetable Salad", "notes": "Chargrilled seasonal vegetables with herb dressing" },
+        { "name": "Eld Special Healthy Salad", "notes": "House special nutritious salad blend" }
+      ]
+    },
+    {
+      "slug": "soups",
+      "name": "Soups",
+      "description": "Slow-simmered broths, aromatic herb soups, and velvety purees.",
+      "displayOrder": 2,
+      "items": [
+        { "name": "Cream Of Tomato Soup", "notes": "Classic smooth tomato bisque" },
+        { "name": "Cream Of Mushroom Soup", "notes": "Velvety wild mushroom reduction" },
+        { "name": "Cream Of Broccoli Soup", "notes": "Rich garden broccoli soup" },
+        { "name": "Lemon Coriander Soup", "notes": "Zesty citrus and fresh coriander broth" },
+        { "name": "Hot & Sour Soup", "notes": "Spicy and tangy Chinese broth" },
+        { "name": "Sweet Corn Soup", "notes": "Tender sweet corn in fragrant broth" },
+        { "name": "Vegetable Clear Soup", "notes": "Light aromatic vegetable broth" }
+      ]
+    },
+    {
+      "slug": "desserts",
+      "name": "Desserts",
+      "description": "Decadent sweet endings and warm patisserie specialties.",
+      "displayOrder": 3,
+      "items": [
+        { "name": "Hot Sizzling Brownie", "isFeatured": true, "notes": "Warm chocolate brownie served on a cast iron sizzler plate" },
+        { "name": "Hot Melted Choco Fudge", "notes": "Decadent rich warm chocolate fudge" },
+        { "name": "Upside Down", "notes": "Chef's signature upside down dessert specialty" }
+      ]
+    },
+    {
+      "slug": "pizzas-sandwiches-maggie",
+      "name": "Pizzas, Sandwiches & Maggie More",
+      "description": "Stone-baked artisanal pizzas, grilled sandwiches, and specialty comfort bowls.",
+      "displayOrder": 4,
+      "items": [
+        { "name": "Vegetable Cheese Sandwich", "notes": "Layered garden vegetables and melted cheese" },
+        { "name": "Vegetable Club Sandwich", "notes": "Triple-decker toasted gourmet sandwich" },
+        { "name": "Open Vegetable Sandwich", "notes": "Toasted bread topped with seasoned vegetables and cheese" },
+        { "name": "Chilly Paneer Grilled Sandwich", "notes": "Spiced cottage cheese pressed in artisan bread" },
+        { "name": "Open Mushroom Sandwich", "notes": "Sauteed mushrooms on crusty bread" },
+        { "name": "Chilly Cheese Toast", "notes": "Golden toast with fiery chilies and melted cheese" },
+        { "name": "Chilli Cheese Corn Toast", "notes": "Sweet golden corn, green chilies, and cheese" },
+        { "name": "Double Trouble Burger", "notes": "Double patty gourmet burger with house sauces" },
+        { "name": "Fresh Garden Pizza", "notes": "Thin crust pizza loaded with bell peppers, onions, and olives" },
+        { "name": "American Corn Pizza", "notes": "Golden sweet corn and mozzarella on marinara base" },
+        { "name": "Stuffed Cheese Pizza", "notes": "Stuffed crust loaded cheese pizza" },
+        { "name": "Paneer Tikka Pizza", "notes": "Smoky tandoori paneer cubes on melted cheese base" },
+        { "name": "Spicy Vegetable Wrap", "notes": "Crispy seasoned vegetable roll with tangy dressing" },
+        { "name": "Paneer Kathi Roll", "notes": "Tandoori marinated paneer rolled in flaky paratha" },
+        { "name": "Classic Maggie", "notes": "Traditional favorite spiced noodles" },
+        { "name": "Vegetable Spicy Maggie", "notes": "Tossed with crunchy seasonal vegetables and fiery spices" },
+        { "name": "Creamy Cheese Maggie", "notes": "Rich melted cheddar and mozzarella blend" },
+        { "name": "Hot Cheese Maggie", "notes": "Spicy chili infusion topped with melted cheese" },
+        { "name": "Punjabi Tadka Maggie", "notes": "Tempered with Punjabi spices and aromatic herbs" },
+        { "name": "Creamy Corn Cheese Maggie", "notes": "Sweet corn in velvety creamy cheese sauce" },
+        { "name": "Corn Cheese", "notes": "Golden corn kernels with molten cheese bake" },
+        { "name": "Mushroom Maggie", "notes": "Sauteed button mushrooms folded into spiced noodles" }
+      ]
+    },
+    {
+      "slug": "paneer-dishes",
+      "name": "Paneer Dishes",
+      "description": "Premium cottage cheese delicacies cooked in traditional North Indian gravies.",
+      "displayOrder": 5,
+      "items": [
+        { "name": "Achari Paneer", "notes": "Paneer infused with pickling spices and mustard notes" },
+        { "name": "Mattar Paneer", "notes": "Tender green peas and cottage cheese in spiced gravy" },
+        { "name": "Kadhai Paneer", "notes": "Wok-tossed paneer with bell peppers and roasted coriander" },
+        { "name": "Palak Paneer", "notes": "Paneer cubes in vibrant spiced spinach reduction" },
+        { "name": "Paneer Do Pyaza", "notes": "Paneer cooked with double the onions in rich masala" },
+        { "name": "Butter Paneer Masala", "notes": "Velvety butter, tomato, and cashew nut gravy" },
+        { "name": "Paneer Pasanda", "notes": "Stuffed paneer sandwiches in creamy aromatic gravy" },
+        { "name": "Shahi Paneer", "notes": "Royal Mughlai style white cashew and cream sauce" },
+        { "name": "Paneer Tikka Masala", "notes": "Chargrilled paneer cubes simmered in spiced tomato gravy" },
+        { "name": "Paneer Angara", "notes": "Smoked cottage cheese infused with fiery red chilies" }
+      ]
+    },
+    {
+      "slug": "dawat-e-chawal-dal",
+      "name": "Dawat E Chawal & Dal",
+      "description": "Fragrant basmati rice preparations and slow-simmered lentils.",
+      "displayOrder": 6,
+      "items": [
+        { "name": "Steamed Rice", "notes": "Aromatic long-grain basmati rice" },
+        { "name": "Jeera Rice", "notes": "Basmati rice tempered with roasted cumin seeds" },
+        { "name": "Dal Khichdi", "notes": "Comforting blend of lentils and rice with ghee tempering" },
+        { "name": "Paneer Pulao", "notes": "Spiced basmati rice layered with seasoned paneer" },
+        { "name": "Veg Briyani", "notes": "Fragrant dum cooked rice with vegetables and saffron spices" },
+        { "name": "Dal Fry", "notes": "Yellow lentils tempered with cumin, garlic, and green chilies" },
+        { "name": "Dal Tadka", "notes": "Smoky double-tempered yellow lentils" },
+        { "name": "Dal Makhni", "notes": "Slow-cooked black lentils simmered overnight with butter and cream" },
+        { "name": "Rajma Rice", "notes": "Traditional Punjabi red kidney bean curry with steamed basmati" }
+      ]
+    },
+    {
+      "slug": "bread-basket",
+      "name": "Bread Basket",
+      "description": "Freshly baked clay-oven tandoori breads and stuffed parathas.",
+      "displayOrder": 7,
+      "items": [
+        { "name": "Tandoori Roti — Plain / Butter", "notes": "Whole wheat bread baked in clay tandoor" },
+        { "name": "Nan — Plain / Butter", "notes": "Traditional refined flour leavened tandoor bread" },
+        { "name": "Garlic Nan", "notes": "Clay-oven bread topped with roasted minced garlic and butter" },
+        { "name": "Stuffed Nan", "notes": "Tandoori bread stuffed with seasoned fillings" },
+        { "name": "Lachha Paratha", "notes": "Multi-layered crispy whole wheat flatbread" },
+        { "name": "Aaloo Paratha", "notes": "Griddled flatbread stuffed with spiced potato mash" },
+        { "name": "Gobhi Paratha", "notes": "Flatbread stuffed with grated seasoned cauliflower" },
+        { "name": "Paneer Paratha", "notes": "Flatbread filled with spiced grated cottage cheese" },
+        { "name": "Mix Paratha", "notes": "Wholesome flatbread stuffed with mixed vegetables" }
+      ]
+    },
+    {
+      "slug": "sabz-e-baahar",
+      "name": "Sabz E Baahar",
+      "description": "Seasonal garden vegetable preparations and royal curries.",
+      "displayOrder": 8,
+      "items": [
+        { "name": "Aaloo Gobhi", "notes": "Potatoes and cauliflower florets tossed in fragrant spices" },
+        { "name": "Aaloo Jeera", "notes": "Baby potatoes tossed with roasted cumin seeds" },
+        { "name": "Aaloo Palak", "notes": "Tender potatoes simmered in pureed spinach gravy" },
+        { "name": "Chana Masala", "notes": "Chickpeas cooked in spiced onion-tomato reduction" },
+        { "name": "Mix Veg", "notes": "Assorted garden vegetables in onion-tomato masala" },
+        { "name": "Dum Aaloo Kashmiri", "notes": "Stuffed baby potatoes simmered in Kashmiri red gravy" },
+        { "name": "Methi Malai Mattar", "notes": "Fenugreek leaves, green peas, and fresh cream" },
+        { "name": "Kashmiri Kofta", "notes": "Vegetable dumplings in rich fragrant yogurt and fennel gravy" },
+        { "name": "Malai Kofta", "notes": "Paneer and potato dumplings in luscious cashew cream sauce" },
+        { "name": "Mushroom Mattar Masala", "notes": "Button mushrooms and green peas in spiced onion masala" },
+        { "name": "Kaju Curry", "notes": "Whole roasted cashew nuts simmered in royal spiced gravy" }
+      ]
+    },
+    {
+      "slug": "curd-papads",
+      "name": "Curd & Papad's",
+      "description": "Cooling yogurts, crisp poppadums, and refreshing raitas.",
+      "displayOrder": 9,
+      "items": [
+        { "name": "Plain Curd", "notes": "Fresh set artisan yogurt" },
+        { "name": "Veg Raita", "notes": "Whipped yogurt with cucumber, tomato, and roasted cumin" },
+        { "name": "Boondi Raita", "notes": "Crispy fried gram flour droplets in seasoned yogurt" },
+        { "name": "Fruit Raita", "notes": "Chilled sweet yogurt with diced seasonal fruits" },
+        { "name": "Roasted Papad", "notes": "Crisp roasted lentil cracker" },
+        { "name": "Fried Papad", "notes": "Golden deep-fried lentil wafer" },
+        { "name": "Masala Papad", "notes": "Roasted papad topped with spicy onion, tomato, and lime salsa" }
+      ]
+    },
+    {
+      "slug": "out-of-the-box-chinese-starters-mains",
+      "name": "Out Of The Box — Chinese Starters and Mains",
+      "description": "Wok-tossed rice, pan-fried noodles, and Oriental classics.",
+      "displayOrder": 10,
+      "items": [
+        { "name": "Fried Rice", "notes": "Wok-tossed long grain rice with garden vegetables" },
+        { "name": "Szechwan Fried Rice", "notes": "Spicy wok rice with chili garlic paste and scallions" },
+        { "name": "Hot Garlic Rice", "notes": "Aromatic rice tossed with burnt garlic and red chilies" },
+        { "name": "Manchurian Fried Rice", "notes": "Fried rice combined with vegetable manchurian balls" },
+        { "name": "Mushroom Fried Rice", "notes": "Button mushrooms stir-fried with fragrant rice" },
+        { "name": "Paneer Fried Rice", "notes": "Golden cottage cheese cubes tossed with seasoned rice" },
+        { "name": "Hakka Noodles", "isFeatured": true, "notes": "Classic thin noodles tossed with crunchy vegetables" },
+        { "name": "Szechwan Fried Noodles", "notes": "Noodles stir-fried with fiery Szechwan pepper sauce" },
+        { "name": "Hot & Green Noodles", "notes": "Noodles tossed with fresh green chilies and herb pesto" },
+        { "name": "Chilly Ginger Garlic Noodles", "notes": "Fiery noodles flavored with fresh root ginger and toasted garlic" }
+      ]
+    },
+    {
+      "slug": "out-of-the-box-gravy",
+      "name": "Out Of The Box Gravy",
+      "description": "Indo-Chinese sauces, sizzling stir-fries, and rich gravies.",
+      "displayOrder": 11,
+      "items": [
+        { "name": "Manchurian Gravy / Dry", "notes": "Vegetable dumplings tossed in dark soya garlic sauce; available in gravy or dry style" },
+        { "name": "Chilly Paneer Gravy / Dry", "notes": "Crispy cottage cheese cubes tossed with bell peppers and green chilies; available in gravy or dry style" },
+        { "name": "Chilly Mushroom Gravy / Semi Gravy", "notes": "Sauteed mushrooms tossed in spicy soy-chili sauce; available in gravy or semi-gravy style" },
+        { "name": "Mushroom & Baby Corn In Hot Garlic Sauce", "notes": "Tender baby corn and mushrooms in pungent red garlic sauce" },
+        { "name": "Tai Mai Sauce With Cottage Cheese Gravy / Semi Gravy", "notes": "Specialty sweet and spicy Oriental Tai Mai sauce with cottage cheese; available in gravy or semi-gravy" }
+      ]
+    },
+    {
+      "slug": "pasta-baked-dishes-sides",
+      "name": "Pasta, Baked Dishes & Sides",
+      "description": "Italian pastas, gratins, cheesy fondue, and oven-baked specialties.",
+      "displayOrder": 12,
+      "items": [
+        { "name": "Alfredo", "notes": "Penne or fettuccine in rich parmesan and cream sauce" },
+        { "name": "Arrabiatta", "notes": "Al dente pasta tossed in spicy crushed tomato and basil sauce" },
+        { "name": "Make Your Own Pasta", "notes": "Customizable pasta with choice of shape, sauce, and toppings" },
+        { "name": "Baked Cannelloni", "notes": "Rolled pasta tubes stuffed with ricotta and spinach, baked with cheese" },
+        { "name": "Lasagna", "notes": "Layered pasta sheets with seasonal vegetables, bechamel, and melted cheese" },
+        { "name": "Macaroni & Cheese", "notes": "Classic elbow macaroni baked in golden cheddar sauce" },
+        { "name": "Stuffed Jacket Potatoes", "notes": "Baked potato skins stuffed with spiced cheese and corn" },
+        { "name": "Baked Vegetables With Garlic Bread", "notes": "Garden vegetables baked in white sauce, served with crusty garlic bread" },
+        { "name": "Cheese Fondue", "notes": "Warm molten cheese pot served with croutons and skewers" },
+        { "name": "Mashed Potatoes With Baked Vegetables", "notes": "Velvety butter mash served alongside seasonal oven-baked vegetables" },
+        { "name": "Plain Garlic Bread", "notes": "Toasted baguette slices brushed with garlic herb butter" },
+        { "name": "Cheese Garlic Bread", "notes": "Toasted baguette topped with garlic butter and melted mozzarella" },
+        { "name": "White Cheese Sauce Garlic Bread", "notes": "Garlic bread smothered in velvety white cheese sauce" },
+        { "name": "Nachos Overloaded", "notes": "Crispy corn tortilla chips baked with cheese sauce, salsa, and jalapenos" }
+      ]
+    },
+    {
+      "slug": "food-combos-offers",
+      "name": "Food Combos and Offers",
+      "description": "Curated value combinations and special meal packages. Note: Original menu lists Offer 1; discounts are subject to confirmation.",
+      "displayOrder": 13,
+      "items": [
+        { "name": "Paneer Lababdar Combo + Cold Drink", "notes": "Paneer Lababdar served with bread/rice accompaniment and a cold drink" },
+        { "name": "Manchurian With Noodles + Cold Drink", "notes": "Veg Manchurian served with Hakka noodles and a cold drink" },
+        { "name": "Chilly Paneer With Fried Rice + Cold Drink", "notes": "Chilly Paneer served with vegetable fried rice and a cold drink" },
+        { "name": "Open Sandwich + Cold Drink", "notes": "Gourmet open sandwich served with a cold drink" },
+        { "name": "Stuffed Cheese Pizza + 2 Cold Drinks", "notes": "Stuffed cheese pizza served with two cold drinks" },
+        { "name": "Paneer Lababdar Combo", "notes": "Paneer Lababdar meal combo (preserved from original menu offerings)" },
+        { "name": "Cold Drink", "notes": "Chilled soft beverage (individual offering)" }
+      ]
+    },
+    {
+      "slug": "hookah",
+      "name": "Hookah",
+      "description": "Flavoured blends. Subject to applicable local laws, municipal licensing regulations, age restrictions, and designated venue policies.",
+      "displayOrder": 14,
+      "items": [
+        { "name": "Single Flavour", "notes": "Single flavour blend. Strictly subject to age verification and local venue licensing." }
+      ]
+    },
+    {
+      "slug": "beer-bar-menu",
+      "name": "Beer and Other Bar Menu Items",
+      "description": "Selected international and domestic brews. Alcohol content, bottle sizes, and serving availability subject to confirmation and legal drinking age.",
+      "displayOrder": 15,
+      "items": [
+        { "name": "Hopper", "notes": "Draft / bottled beer option. Details subject to confirmation." },
+        { "name": "Belgium", "notes": "Preserved from source menu; flagged for clarification on whether this denotes Belgian craft beer or a specific brand." },
+        { "name": "Asahi", "notes": "Japan — original menu references a super dry lager. Verified details pending." },
+        { "name": "Singha", "notes": "Thailand — original menu references a premium lager." },
+        { "name": "Kirin Ichiban", "notes": "Japan — supplied description references 'first press' and 100% malt." },
+        { "name": "Kronenbourg 1664", "notes": "France — premium French lager." },
+        { "name": "Peroni", "notes": "Rome — supplied in original menu; precise product and bottle description to be verified." },
+        { "name": "Corona", "notes": "Mexico — original menu references Corona Extra and its Mexican brewing and bottling origin." }
+      ]
+    },
+    {
+      "slug": "beverages-cocktails-mocktails",
+      "name": "Cocktails, Mocktails, Shakes and Beverages",
+      "description": "Handcrafted mocktails, specialty shakes, refreshing coolers, and blended drinks.",
+      "displayOrder": 16,
+      "items": [
+        { "name": "Shakes", "notes": "Assorted creamy blended shakes" },
+        { "name": "Redbull", "notes": "Energy drink" },
+        { "name": "Green Apple Mojito", "notes": "Refreshing mint and green apple cooler" },
+        { "name": "Pina Colada", "notes": "Pineapple and coconut cream blend" },
+        { "name": "Mango Daiquiri", "notes": "Mango fruit blend cooler" },
+        { "name": "Pineapple Juice", "notes": "Freshly pressed chilled pineapple juice" }
+      ]
+    },
+    {
+      "slug": "platters-starters-specialties",
+      "name": "Platters, Starters and Specialties",
+      "description": "Signature platters, tandoori starters, and chef specialties.",
+      "displayOrder": 17,
+      "items": [
+        { "name": "Crispy Corn", "isFeatured": true, "notes": "Golden fried sweet corn tossed with pepper, scallions, and herbs" },
+        { "name": "Kebab Platter", "isFeatured": true, "notes": "Assorted chef special kebabs served with mint chutney" },
+        { "name": "Veg Platter", "isFeatured": true, "notes": "Selection of vegetarian starters and appetisers" },
+        { "name": "Chinese Platter", "notes": "Assortment of oriental appetizers and dim sums" },
+        { "name": "Tandoori Platter", "notes": "Clay-oven roasted appetizers platter" },
+        { "name": "Paneer Tikka", "isFeatured": true, "notes": "Spiced cottage cheese cubes chargrilled in clay tandoor" },
+        { "name": "Veg Kothe", "notes": "Pan-fried stuffed dumplings; preserved as supplied, exact spelling flagged for confirmation" },
+        { "name": "Chinese Food", "notes": "Preserved as supplied in original menu highlights; flagged as category or specialty platter pending confirmation" },
+        { "name": "Chinese Sizzler", "isFeatured": true, "notes": "Sizzling platter of noodles, fried rice, manchurian, and crispy potatoes" },
+        { "name": "Jhol Momos", "isFeatured": true, "notes": "Steamed dumplings submerged in spiced tangy Himalayan sesame jhol broth" },
+        { "name": "Sizzlers", "notes": "Chef specialty cast iron sizzler creations" }
+      ]
+    }
+  ]
+}
