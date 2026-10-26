@@ -4,6 +4,8 @@ import { verifyPassword, setSessionCookie, checkRateLimit } from '@/lib/auth';
 import { AdminLoginSchema } from '@/lib/validations';
 import { logAuditEvent } from '@/lib/audit';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   try {
     // Rate limit login attempts: 5 per 15 minutes per IP
