@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: house230_web
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://house230_user:house230_password@postgres:5432/house230_db?schema=public
+      - JWT_SECRET=change-this-to-a-very-secure-random-64-character-string
+      - NEXT_PUBLIC_APP_URL=http://localhost:3000
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: house230_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: house230_user
+      POSTGRES_PASSWORD: house230_password
+      POSTGRES_DB: house230_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
