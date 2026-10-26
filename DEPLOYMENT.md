@@ -61,7 +61,8 @@ git push -u origin main
      *(This automatically pushes the schema to Supabase, seeds all 145 dishes + Bhopal venue details, and builds the Next.js app).*
 4. In **Environment Variables**, add:
    - `DATABASE_URL`: Your Supabase connection string from Step 1.
-   - `JWT_SECRET`: A secure random 64-character string (e.g., `house230-bhopal-prod-secret-key-9876543210-secure`).
+   - `SESSION_SECRET`: A secure random 64-character string (or `JWT_SECRET`).
+   - `ADMIN_INITIAL_PASSWORD`: A strong initial password for first-time admin creation.
    - `NEXT_PUBLIC_APP_URL`: `https://houseno230.com` (or your initial `.vercel.app` URL).
 5. Click **Deploy**. In under 2 minutes, your website will be live!
 
@@ -80,7 +81,7 @@ If you prefer an all-in-one container platform without separate services:
 2. Click **New Project** → **Provision PostgreSQL**.
 3. In the same project, click **New Service** → **GitHub Repo** → select your `house-no-230` repository.
 4. Set the environment variable `DATABASE_URL` to `${{Postgres.DATABASE_URL}}`.
-5. Set `JWT_SECRET` and `NEXT_PUBLIC_APP_URL`.
+5. Set `SESSION_SECRET` (or `JWT_SECRET`), `ADMIN_INITIAL_PASSWORD`, and `NEXT_PUBLIC_APP_URL`.
 6. Set Custom Build Command to: `npm run deploy:build`.
 7. Railway will build and host both the app and database.
 

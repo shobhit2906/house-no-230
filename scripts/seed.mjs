@@ -25,25 +25,7 @@ async function main() {
 
   await prisma.siteSettings.upsert({
     where: { id: 'global' },
-    update: {
-      restaurantName: 'House No. 230 - The Gourmet Kitchen & Bar',
-      tagline: 'The Gourmet Kitchen & Bar',
-      phone: '+91 89898 88988',
-      secondaryPhone: '+91 91312 45032',
-      secondaryPhoneVerified: false, // Flagged for owner confirmation before public badge
-      email: 'contact@houseno230.com',
-      whatsappNumber: '+91 89898 88988',
-      address: '230, Kerwa Dam Road, opposite Bull Mother Farm, near N.L.I.U., National Law Institute University, Bhopal, Madhya Pradesh 462044, India.',
-      googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=House+No+230+The+Gourmet+Kitchen+Bar+Bhopal',
-      districtUrl: 'https://www.district.in/dining/bhopal/house-no-230-the-gourmet-kitchen-mendori',
-      linktreeUrl: 'https://linktr.ee/Houseno230',
-      openingHours: 'Mon – Fri: 12:30 PM – 11:30 PM | Sat – Sun: 12:30 PM – Midnight',
-      openingHoursJson: initialDailyHours,
-      reservationLeadHours: 2,
-      maxPartySize: 30,
-      reservationPolicies: 'Reserved tables are held for 15 minutes past scheduled time. For groups over 12, prior phone confirmation is recommended.',
-      eventPolicies: 'Celebrations and private dining bookings require at least 24–48 hours advance notice for custom setups and chef curation.',
-    },
+    update: {}, // Preserve existing owner modifications across routine deployments
     create: {
       id: 'global',
       restaurantName: 'House No. 230 - The Gourmet Kitchen & Bar',
@@ -68,25 +50,37 @@ async function main() {
       aboutStory: 'Located along Kerwa Dam Road in Bhopal near N.L.I.U., House No. 230 — The Gourmet Kitchen & Bar blends scenic tranquility with refined multicuisine dining and vibrant bar hospitality.',
     },
   });
-  console.log('Site settings updated with verified Bhopal business details.');
+  console.log('Site settings initialized/preserved.');
 
-  // 2. Seed Administrator
-  const adminEmail = process.env.ADMIN_INITIAL_EMAIL || 'admin@houseno230.com';
-  const adminPassword = process.env.ADMIN_INITIAL_PASSWORD || 'Admin@House230';
-  const passwordHash = await bcrypt.hash(adminPassword, 12);
+  // 2. Provision Initial Administrator (Without changing existing admin password)
+  const existingAdmin = await prisma.adminUser.findFirst();
+  if (!existingAdmin) {
+    const adminEmail = process.env.ADMIN_INITIAL_EMAIL || 'admin@houseno230.com';
+    const isProd = process.env.NODE_ENV === 'production';
+    const adminPassword = process.env.ADMIN_INITIAL_PASSWORD;
 
-  const admin = await prisma.adminUser.upsert({
-    where: { email: adminEmail },
-    update: {},
-    create: {
-      email: adminEmail,
-      name: 'Restaurant Admin',
-      passwordHash,
-      role: 'ADMIN',
-      isActive: true,
-    },
-  });
-  console.log(`Administrator provisioned: ${admin.email}`);
+    if (isProd && !adminPassword) {
+      throw new Error(
+        'FATAL: ADMIN_INITIAL_PASSWORD must be provided via environment variables for initial production provisioning.'
+      );
+    }
+
+    const finalPassword = adminPassword || 'Admin@House230'; // development/local fallback only
+    const passwordHash = await bcrypt.hash(finalPassword, 12);
+
+    const admin = await prisma.adminUser.create({
+      data: {
+        email: adminEmail,
+        name: 'Restaurant Admin',
+        passwordHash,
+        role: 'ADMIN',
+        isActive: true,
+      },
+    });
+    console.log(`Initial administrator provisioned: ${admin.email}`);
+  } else {
+    console.log(`Existing administrator preserved (${existingAdmin.email}); no credential changes made.`);
+  }
 
   // 3. Seed Loyalty Rewards (Configurable by Owner)
   const rewards = [

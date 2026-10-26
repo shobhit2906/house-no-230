@@ -61,4 +61,43 @@ describe('Authentication & Security', () => {
     expect(req4.allowed).toBe(false);
     expect(req4.remaining).toBe(0);
   });
+
+  it('fails safely in production when session secret is missing', async () => {
+    const { getSecretKey } = await import('@/lib/auth');
+    const envObj = process.env as Record<string, string | undefined>;
+    const origNodeEnv = envObj.NODE_ENV;
+    const origSessionSecret = envObj.SESSION_SECRET;
+    const origJwtSecret = envObj.JWT_SECRET;
+
+    try {
+      // Simulate production environment with missing secrets
+      envObj.NODE_ENV = 'production';
+      delete envObj.SESSION_SECRET;
+      delete envObj.JWT_SECRET;
+
+      expect(() => getSecretKey()).toThrow(/SESSION_SECRET or JWT_SECRET must be configured/);
+    } finally {
+      envObj.NODE_ENV = origNodeEnv;
+      if (origSessionSecret) envObj.SESSION_SECRET = origSessionSecret;
+      if (origJwtSecret) envObj.JWT_SECRET = origJwtSecret;
+    }
+  });
+
+  it('supports JWT_SECRET as backward-compatible fallback for SESSION_SECRET', async () => {
+    const { getSecretKey } = await import('@/lib/auth');
+    const origSessionSecret = process.env.SESSION_SECRET;
+    const origJwtSecret = process.env.JWT_SECRET;
+
+    try {
+      delete process.env.SESSION_SECRET;
+      process.env.JWT_SECRET = 'custom-jwt-secret-alias-for-session-testing!';
+
+      const key = getSecretKey();
+      expect(key).toBeInstanceOf(Uint8Array);
+      expect(key.length).toBeGreaterThan(0);
+    } finally {
+      if (origSessionSecret) process.env.SESSION_SECRET = origSessionSecret;
+      if (origJwtSecret) process.env.JWT_SECRET = origJwtSecret;
+    }
+  });
 });

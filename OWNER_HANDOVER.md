@@ -180,7 +180,8 @@ npm start
 4. Connect the repository to [Vercel](https://vercel.com).
 5. Set environment variables in Vercel Project Settings:
    - `DATABASE_URL`: `postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres`
-   - `JWT_SECRET`: `[GENERATE_A_64_CHARACTER_RANDOM_STRING]`
+   - `SESSION_SECRET`: `[GENERATE_A_64_CHARACTER_RANDOM_STRING]` (or `JWT_SECRET`)
+   - `ADMIN_INITIAL_PASSWORD`: `[SECURE_INITIAL_ADMIN_PASSWORD_FOR_FIRST_PROVISIONING]`
    - `NEXT_PUBLIC_APP_URL`: `https://houseno230.com`
 6. In Build Command settings: `npx prisma db push && node scripts/seed.mjs && npm run build`.
 

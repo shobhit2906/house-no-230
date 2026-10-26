@@ -7,6 +7,9 @@ import { logAuditEvent } from '@/lib/audit';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  const auth = await requireAdminSession();
+  if (auth.errorResponse) return auth.errorResponse;
+
   try {
     const settings = await prisma.siteSettings.findUnique({
       where: { id: 'global' },
